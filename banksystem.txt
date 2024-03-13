@@ -1,0 +1,70 @@
+CREATE NEW ACCOUNT
+DEPOSIT MONEY
+WITHDRAW MONEY
+BALANCE INQUIRY
+TRANSFER MONEY TO OTHER ACCOUNT
+EXIT
+
+
+
+#include <iostream>
+using namespace std;
+
+class bms {
+public:
+  int CreateAccount() {
+    string name;
+    int age;
+
+    string address;
+    int accountnum;
+    int password;
+    
+    cout << "    ----------------------------------------------" << endl;
+    cout << "    Welcome to BDO Bank System Console Application" << endl;
+    cout << "    ----------------------------------------------" << endl;
+
+    cout << endl;
+    cout << "Enter your fullname:";  
+    getline(cin, name);
+    cout << "----------------------------------------------" <<endl;
+    
+    cout << "Enter your account number:";
+    cin >> accountnum;
+    cout << "----------------------------------------------"<<endl;
+  
+    cout << "Enter your password:";
+    cin >> password;
+    cout << "----------------------------------------------"<<endl;
+
+    cout <<"Enter your address:";
+    cin >> address;
+    cout << "----------------------------------------------"<<endl;
+
+    cout << "Enter your age:";
+    cin >> age;
+
+    
+
+    if (age < 18){
+      cout << "  You are not eligible to create an account" << endl;
+      
+      cout << "  Please try again when you are 18 or above" << endl;
+      cout << endl;
+      cout << "  Thankyou for using BDO Bank System!!" << endl;
+    }
+    else {
+      cout << "  Account created successfully" << endl;
+      cout << "  Hello: " << name << endl;
+      cout << endl;
+      cout << "  Attention: For security reasons, please remember never to share your password with anyone. Your password is confidential and should be kept private at all times." << endl;
+      
+    }
+    return 0;
+  }
+};
+
+int main() {
+  bms myobj;
+  myobj.CreateAccount();
+}
