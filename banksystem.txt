@@ -1,70 +1,210 @@
-CREATE NEW ACCOUNT
-DEPOSIT MONEY
-WITHDRAW MONEY
-BALANCE INQUIRY
-TRANSFER MONEY TO OTHER ACCOUNT
-EXIT
-
-
 
 #include <iostream>
+#include <string>
 using namespace std;
+
+struct Transaction {
+    string type;
+    double amount;
+};
 
 class bms {
 public:
-  int CreateAccount() {
-    string name;
-    int age;
+    int CreateAccount() {
+        string name;
+        int age;
+        int accountnum;
+        int password;
+        int login_AN;
+        int login_Pass;
+        int attempts = 0;
+        const int max_attempts = 3;
+        
+        cout << "\033[1;34m"; 
+        cout << "    					----------------------------------------------" << endl;
+        cout << "    					Welcome to BDO Bank System Console Application" << endl;
+        cout << "    					----------------------------------------------" << endl;
+        cout << endl;
+        
+        
+        
+        cout << " --------------      \n";
+        cout << " |   Sign up  |       \n";
+        cout << " --------------       \n";
+        cout << endl;
+        cout << "\033[0m";
+        
+        cout << "\033[1;33m"; //gold
+        cout << "Enter your fullname: ";
+        getline(cin, name);
+        cout << "----------------------------------------------" << endl;
 
-    string address;
-    int accountnum;
-    int password;
-    
-    cout << "    ----------------------------------------------" << endl;
-    cout << "    Welcome to BDO Bank System Console Application" << endl;
-    cout << "    ----------------------------------------------" << endl;
+        cout << "Enter your account number: ";
+        cin >> accountnum;
+        cout <<"----------------------------------------------" << endl;
 
-    cout << endl;
-    cout << "Enter your fullname:";  
-    getline(cin, name);
-    cout << "----------------------------------------------" <<endl;
-    
-    cout << "Enter your account number:";
-    cin >> accountnum;
-    cout << "----------------------------------------------"<<endl;
-  
-    cout << "Enter your password:";
-    cin >> password;
-    cout << "----------------------------------------------"<<endl;
+        cout << "Enter your password: ";
+        cin >> password;
+        cout << "----------------------------------------------" << endl;
 
-    cout <<"Enter your address:";
-    cin >> address;
-    cout << "----------------------------------------------"<<endl;
+        cout << "Enter your age: ";
+        cin >> age;
+        cout << "----------------------------------------------" << endl;
 
-    cout << "Enter your age:";
-    cin >> age;
+        if (age < 18) {
+            cout << "	You are not eligible to create an account" << endl;
 
-    
+            cout << "	Please try again when you are 18 or above" << endl;
+            cout << endl;
+            cout << "	Thank you for using BDO Bank System!!" << endl;
+            return 0;
+        } else {
+            cout << endl;
+            cout << "	Account created successfully" << endl;
+            cout << "	Hello: " << name << endl;
+            cout << endl;
+            cout << "	Attention: For security reasons, please remember never to " << endl;
+            cout << "	share your password with anyone. Your password is confidential "<< endl;
+            cout << "	and should be kept private at all times."<< endl;
+            
+        
+        }
+        
+        cout << "\033[1;34m"; 
+        cout << endl << "----------------------------------------------" << endl;
+        cout << "  --------------      \n";
+        cout << "  |   Log in   |       \n";
+        cout << "  --------------       \n";
+        cout << "\033[0m";
+        
+        cout << "\033[1;33m"; //gold
+        while (attempts < max_attempts) {
+            cout << endl << "----------------------------------------------" << endl;
+            cout << "Enter your Account number: ";
+            cin >> login_AN;
 
-    if (age < 18){
-      cout << "  You are not eligible to create an account" << endl;
-      
-      cout << "  Please try again when you are 18 or above" << endl;
-      cout << endl;
-      cout << "  Thankyou for using BDO Bank System!!" << endl;
+            cout << "Enter your Password: ";
+            cin >> login_Pass;
+            cout << endl << "----------------------------------------------" << endl;
+
+            if (login_AN == accountnum && login_Pass == password) {
+                system ("CLS"); // Clears the screen
+                usertransac();
+                break;
+            } else {
+                
+                cout << "   Incorrect Account number or Password. Please try again." << endl;
+                attempts++;
+                if (attempts == max_attempts) {
+                    
+                    cout << "   Max login attempts reached. Exiting program." << endl;
+                    return 0;
+                }
+            }
+        }
+        
+        
+        
+        return 0;
     }
-    else {
-      cout << "  Account created successfully" << endl;
-      cout << "  Hello: " << name << endl;
-      cout << endl;
-      cout << "  Attention: For security reasons, please remember never to share your password with anyone. Your password is confidential and should be kept private at all times." << endl;
-      
-    }
-    return 0;
-  }
+    
+    void usertransac() {
+    int choice;
+    double balance = 0.0;
+    const int maxTransactions = 100; 
+    Transaction transactions[maxTransactions]; 
+    int transactionCount = 0; 
+
+    do {
+        cout << "\033[1;34m"; // Bright blue
+        cout << endl << "----------------------------------------------" << endl;
+        cout << "|             Transaction Menu              |" << endl;
+        cout << "----------------------------------------------" << endl;
+        cout << "| Choose an option:                         |" << endl;
+        cout << "| 1. Deposit Money                          |" << endl;
+        cout << "| 2. Withdraw Money                         |" << endl;
+        cout << "| 3. Balance Inquiry                        |" << endl;
+        cout << "| 4. View All Transactions                  |" << endl;
+        cout << "| 5. Exit                                   |" << endl;
+        cout << "----------------------------------------------" << endl;
+        cout << "\033[0m"; // Reset color to default
+        
+        
+        cout << "\033[1;33m"; //gold
+        cout << "Enter your choice: ";
+        cin >> choice;
+        
+
+        switch (choice) {
+            case 1: {
+                double amount;
+                cout << "Enter the amount to deposit: ";
+                cin >> amount;
+                cout << endl;
+                if (amount > 0) {
+                    balance += amount;
+                    transactions[transactionCount++] = {"Deposit", amount};
+                    cout << "	Deposit successful. Current balance: " << balance << endl;
+                } else {
+                    cout << "	Invalid amount. Deposit failed." << endl;
+                }
+                break;
+            }
+            case 2: {
+                double amount;
+                cout << "Enter the amount to withdraw: ";
+                cin >> amount;
+                
+                if (amount > 0 && amount <= balance) {
+                    balance -= amount;
+                    transactions[transactionCount++] = {"Withdrawal", amount};
+                    cout << "	Withdrawal successful. Current balance: " << balance << endl;
+                } else {
+                    cout << "	Invalid amount or insufficient balance. Withdrawal failed." << endl;
+                }
+                break;
+            }
+            case 3: {
+                cout << endl << "----------------------------------------------" << endl;
+                cout << "|            Balance Inquiry                |" << endl;
+                cout << "----------------------------------------------" << endl;
+                cout << "|	Your current balance is: " << balance << endl;
+                cout << "----------------------------------------------" << endl;
+                break;
+            }
+            case 4: {
+                cout << endl << "----------------------------------------------" << endl;
+                cout << "|          All Transactions                 |" << endl;
+                cout << "----------------------------------------------" << endl;
+                for (int i = 0; i < transactionCount; ++i) {
+                    cout << "| " << transactions[i].type << ": " << transactions[i].amount << endl;
+                }
+                cout << "----------------------------------------------" << endl;
+                break;
+            }
+            case 5:
+                cout << "Exiting transaction menu." << endl;
+                return;
+            default:
+                cout << "	Invalid choice. Please try again." << endl;
+        }
+        
+        char anotherTransaction;
+        cout << endl << "----------------------------------------------" << endl;
+        cout << "Do you want to perform another transaction? (Y/N): ";
+        cin >> anotherTransaction;
+        cout << endl << "----------------------------------------------" << endl;
+        
+        if (anotherTransaction != 'Y' && anotherTransaction != 'y')
+            break;
+
+    } while (true);
+}
+
 };
 
 int main() {
-  bms myobj;
-  myobj.CreateAccount();
+    bms myobj;
+    myobj.CreateAccount();
+    return 0;
 }
